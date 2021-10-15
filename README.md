@@ -1,18 +1,17 @@
-# Docker::Rocketchat
+# Docker::Rocketchat Server
 
 Rocket is an open-source communication. 
 to learn more about rocketchat visit their github: https://github.com/RocketChat/Rocket.Chat
+
+For Desktop apps, it can be downloaded here: https://rocket.chat/download
 
 ## Table of Contents
 
 1. [Description](#description)
 1. [Setup - The basics of getting started with rocketchat](#setup)
-    * [What rocketchat affects](#what-rocketchat-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with rocketchat](#beginning-with-rocketchat)
 1. [Usage - Configuration options and additional functionality](#usage)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
+
 
 ## Description
 
@@ -47,13 +46,16 @@ in order to use eyaml, you need to install or provide in your puppetfile -- voxp
 To manual install, you can follow this => https://log-it.tech/2017/05/29/install-eyaml-module-on-puppet-master/
 
 ## Usage
-
+```
 just change the secrets.yml
 
+to encrypt:
 # String (encrypting usernames)
   /usr/local/bin/eyaml encrypt --pkcs7-public-key=/etc/puppetlabs/puppet/eyaml/public_key.pkcs7.pem -o string -s "string"
 # Password (will get prompted to enter a string --encrypting passwords)
   /usr/local/bin/eyaml encrypt --pkcs7-public-key=/etc/puppetlabs/puppet/eyaml/public_key.pkcs7.pem -o string -p
 # Files (encrypting keys)
   /usr/local/bin/eyaml encrypt --pkcs7-public-key=/etc/puppetlabs/puppet/eyaml/public_key.pkcs7.pem -o string -f $file
+```
+
 
