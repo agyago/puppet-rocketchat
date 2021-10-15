@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+    rocketchat:
+        container_name: rocket.chat
+        image: rocket.chat:latest
+        environment:
+          - ROOT_URL=https://<%= $facts[fqdn] %>:3000
+          - MONGO_URL=mongodb://<%= $rock_user -%>:<%= $rock_paswd -%>@mongodb:27017/rocketchat?authSource=rocketchat&replicaSet=rs0
+          - MONGO_OPLOG_URL=mongodb://<%= $user_log -%>:<%= $user_pass -%>@mongodb:27017/local?authSource=rocketchat&replicaSet=rs0
+        ports:
+          - 3000:3000
+        depends_on:
+          - mongo
+
+    mongo:
+        container_name: mongodb
+        build: .
+        hostname: mongodb
+        volumes:
+          - ./data/mongodb/mongod.conf:/etc/mongod.conf
+          - ./data/mongodb/data/db/:/data/db/
+          - ./data/mongodb/data/log/:/var/log/mongodb/
+          - ./data/mongodb/mongodb-keyfile:/opt/keyfile
+        environment:
+          - MONGO_INITDB_ROOT_USERNAME=<%= $initadmin %>
+          - MONGO_INITDB_ROOT_PASSWORD=<%= $initpaswd %>
+        ports:
+            - "27017:27017"
+        healthcheck:
+            test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u '<%= $initadmin -%>'  -p '<%= $initpaswd -%>' --quiet) -eq 1
+            interval: 10s
+            start_period: 30s
+        command: ["--replSet", "rs0", "--bind_ip_all"]

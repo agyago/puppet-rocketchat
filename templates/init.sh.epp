@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+echo "Creating mongo users..."
+
+mongo admin -u '<%= $initadmin -%>' -p '<%= $initpaswd -%>' << EOF
+db.createUser({user: '<%= $admin_account -%>', pwd: '<%= $admin_pass -%>', roles: [{role: 'userAdminAnyDatabase', db: 'admin'}]});
+db.grantRolesToUser(
+   "admin",
+   [ "clusterAdmin" ]
+);
+EOF
+
+mongo admin -u '<%= $admin_account -%>' -p '<%= $admin_pass -%>' << EOF
+use rocketchat
+db.createUser({user: '<%= $rock_user -%>', pwd: '<%= $rock_paswd -%>', roles:[{role: "dbOwner", db: "rocketchat"},{role: "readWrite", db: "reporting"},{role: "readWrite", db: "local"}]});
+db.createUser({user: "<%= $user_log -%>", pwd: "<%= $user_pass -%>", roles: [{role: "read", db: "local"}]});
+EOF
+echo "Mongo users created for rocketchat."
