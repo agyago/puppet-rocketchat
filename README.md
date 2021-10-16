@@ -57,5 +57,29 @@ to encrypt:
 # Files (encrypting keys)
   /usr/local/bin/eyaml encrypt --pkcs7-public-key=/etc/puppetlabs/puppet/eyaml/public_key.pkcs7.pem -o string -f $file
 ```
+after replacing secrets, run 'puppet agent -t'
+```
+# check rocketchat service
 
+$ systemctl status rocketchat
+● rocketchat.service - Rocketchat
+   Loaded: loaded (/etc/systemd/system/rocketchat.service; enabled; vendor preset: disabled)
+   Active: active (exited) since Sat 2021-10-16 04:58:09 UTC; 2h 29min ago
+  Process: 2085 ExecStart=/usr/bin/docker-compose up -d (code=exited, status=0/SUCCESS)
+ Main PID: 2085 (code=exited, status=0/SUCCESS)
+    Tasks: 0
+   Memory: 0B
+   CGroup: /system.slice/rocketchat.service
+
+Oct 16 04:58:09 rocketchat1.mylabserver.com systemd[1]: Started Rocketchat.
+
+# check docker if status are up
+
+CONTAINER ID        IMAGE                COMMAND                  CREATED              STATUS                        PORTS                      NAMES
+dcab23c4913d        rocket.chat:latest   "node main.js"           About a minute ago   Up About a minute             0.0.0.0:3000->3000/tcp     rocket.chat
+c508e75231f0        rocketchat_mongo     "docker-entrypoint..."   About a minute ago   Up About a minute (healthy)   0.0.0.0:27017->27017/tcp   mongodb
+```
+if all are good and running.
+
+Start to configure the server through browser - https://hostname
 
