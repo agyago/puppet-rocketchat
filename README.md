@@ -81,5 +81,5 @@ c508e75231f0        rocketchat_mongo     "docker-entrypoint..."   About a minute
 ```
 if all are good and running.
 
-Start to configure the server through browser - https://hostname
+Start to configure the server through browser - https://yourserverhostname
 
